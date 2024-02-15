@@ -319,6 +319,8 @@ class MegatronGPTModel(MegatronBaseModel, TextGeneration):
                 rotary_percent=self.cfg.get('rotary_percentage', 1.0),
                 seq_len_interpolation_factor=self.cfg.get('seq_len_interpolation_factor', None),
                 rotary_base=self.cfg.get('rotary_base', 10000),
+                pretrained_max_position_embeddings=self.cfg.get('pretrained_max_position_embeddings', None),
+                augment_seq=self.cfg.get('rotary_augment_seq', None),
             )
         else:
             assert self.cfg.get('num_query_groups', None) is None or self.cfg.get(
@@ -388,6 +390,8 @@ class MegatronGPTModel(MegatronBaseModel, TextGeneration):
                 megatron_legacy=self.cfg.get('megatron_legacy', False),
                 seq_len_interpolation_factor=self.cfg.get('seq_len_interpolation_factor', None),
                 rotary_base=self.cfg.get('rotary_base', 10000),
+                pretrained_max_position_embeddings=self.cfg.get('pretrained_max_position_embeddings', None),
+                augment_seq=self.cfg.get('rotary_augment_seq', None),
             )
         return model
 
