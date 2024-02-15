@@ -64,6 +64,7 @@ def _modify_config(gpt_cfg, cfg, add_cfg_to_tree=False):
         gpt_cfg.tensor_model_parallel_size = cfg.model.get('tensor_model_parallel_size', 1)
         gpt_cfg.pipeline_model_parallel_size = cfg.model.get('pipeline_model_parallel_size', 1)
         gpt_cfg.pipeline_model_parallel_split_rank = cfg.model.get('pipeline_model_parallel_split_rank', 0)
+        gpt_cfg.rotary_augment_seq = cfg.model.get('rotary_augment_seq', False)
 
         # This is needed when modifying a hparam file directly to load `.ckpt` files.
         # This is not needed to modify the cfg in `.nemo` files.
