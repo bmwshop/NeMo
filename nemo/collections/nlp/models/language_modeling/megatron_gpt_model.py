@@ -855,6 +855,7 @@ class MegatronGPTModel(MegatronBaseModel, TextGeneration):
                 'attention_mask': batch['attention_mask'],
                 'labels': batch['labels'],
                 'loss_mask': batch['loss_mask'],
+                'training_step': not validation_step,
             }
 
             if not self.mcore_gpt:
