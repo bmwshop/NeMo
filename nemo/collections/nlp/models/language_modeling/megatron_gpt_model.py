@@ -972,6 +972,16 @@ class MegatronGPTModel(MegatronBaseModel, TextGeneration):
             # slice batch along sequence dimension for context parallelism
             batch = self.get_batch_on_this_context_parallel_rank(batch)
 
+            # by default, we don't augment during validation
+            need_to_augment = not validation_step
+            if not validation_step:
+                need_to_augment = True
+            else:
+                augment_seq = self.cfg.get('rotary_augment_seq', None)
+                if augment_seq and augment_seq.get('inference', False):
+                    need_to_augment = True
+                else:
+                    need_to_augment = False
             # Model forward pass
             forward_args = {
                 'input_ids': batch['tokens'],
@@ -979,7 +989,7 @@ class MegatronGPTModel(MegatronBaseModel, TextGeneration):
                 'attention_mask': None if self.get_attention_mask_from_fusion else batch['attention_mask'],
                 'labels': batch['labels'],
                 'loss_mask': batch['loss_mask'],
-                'training_step': not validation_step,
+                'training_step': need_to_augment,
             }
 
             if not self.mcore_gpt:
