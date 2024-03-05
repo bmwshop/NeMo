@@ -848,6 +848,16 @@ class MegatronGPTModel(MegatronBaseModel, TextGeneration):
                 required_keys.remove('attention_mask')
             batch = {key: val.cuda(non_blocking=True) if key in required_keys else None for key, val in batch.items()}
 
+            # by default, we don't augment during validation
+            need_to_augment = not validation_step
+            if not validation_step:
+                need_to_augment = True
+            else:
+                augment_seq = self.cfg.get('rotary_augment_seq', None)
+                if augment_seq and augment_seq.get('inference', False):
+                    need_to_augment = True
+                else:
+                    need_to_augment = False
             # Model forward pass
             forward_args = {
                 'input_ids': batch['tokens'],
@@ -855,7 +865,7 @@ class MegatronGPTModel(MegatronBaseModel, TextGeneration):
                 'attention_mask': batch['attention_mask'],
                 'labels': batch['labels'],
                 'loss_mask': batch['loss_mask'],
-                'training_step': not validation_step,
+                'training_step': need_to_augment,
             }
 
             if not self.mcore_gpt:
