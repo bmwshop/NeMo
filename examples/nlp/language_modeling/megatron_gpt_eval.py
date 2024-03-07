@@ -231,6 +231,7 @@ def main(cfg) -> None:
             pretrained_cfg["pretrained_max_position_embeddings"] = cfg.inference.get("pretrained_max_position_embeddings", None)
             pretrained_cfg["seq_len_interpolation_factor"] = cfg.inference.get("seq_len_interpolation_factor", None)
             pretrained_cfg["rotary_augment_seq"] = cfg.inference.get("rotary_augment_seq", None)
+            pretrained_cfg["rotary_base"] = cfg.inference.get("rotary_base", None)
         model = MegatronGPTModel.restore_from(
             restore_path=cfg.gpt_model_file,
             trainer=trainer,
