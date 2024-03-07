@@ -67,6 +67,7 @@ def _modify_config(gpt_cfg, cfg, add_cfg_to_tree=False):
         gpt_cfg.rotary_augment_seq = cfg.model.get('rotary_augment_seq', False)
         gpt_cfg.pretrained_max_position_embeddings = cfg.model.get('pretrained_max_position_embeddings', False)
         gpt_cfg.rotary_base = cfg.model.get('rotary_base', 10000)
+        gpt_cfg.rotary_percentage = cfg.model.get('rotary_percentage', 10000)
 
         # This is needed when modifying a hparam file directly to load `.ckpt` files.
         # This is not needed to modify the cfg in `.nemo` files.
