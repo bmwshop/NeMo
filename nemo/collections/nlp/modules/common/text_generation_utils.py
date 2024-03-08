@@ -35,7 +35,7 @@ from nemo.collections.multimodal.data.neva.conversation import (
 from nemo.collections.nlp.modules.common.megatron.utils import get_ltor_masks_and_position_ids
 from nemo.collections.nlp.modules.common.text_generation_strategy import model_inference_strategy_dispatcher
 from nemo.collections.nlp.modules.common.transformer.text_generation import LengthParam, OutputType, SamplingParam
-from nemo.utils import AppState
+from nemo.utils import AppState, logging
 
 try:
     from apex.transformer.pipeline_parallel.utils import _reconfigure_microbatch_calculator
@@ -472,6 +472,11 @@ def synced_generate(
     min_tokens_to_generate=0,
     image_list=None,
 ):
+    logging.info(f"seeing attention mask: {compute_attention_mask}")
+    if compute_attention_mask:
+        logging.warning("forcing attention mask to false")
+        compute_attention_mask = False
+
     context_length = context_length_tensor.min().item()
     tokenizer = model.tokenizer
     if isinstance(tokenizer, TabularTokenizer):
