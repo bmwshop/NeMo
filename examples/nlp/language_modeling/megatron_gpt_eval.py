@@ -228,11 +228,18 @@ def main(cfg) -> None:
                 pretrained_cfg.megatron_amp_O2 = False
             elif trainer.precision in ['bf16', 'bf16-mixed'] and cfg.get('megatron_amp_O2', False):
                 pretrained_cfg.megatron_amp_O2 = True
-            pretrained_cfg["pretrained_max_position_embeddings"] = cfg.inference.get("pretrained_max_position_embeddings", None)
-            pretrained_cfg["seq_len_interpolation_factor"] = cfg.inference.get("seq_len_interpolation_factor", None)
-            pretrained_cfg["rotary_augment_seq"] = cfg.inference.get("rotary_augment_seq", None)
-            pretrained_cfg["rotary_base"] = cfg.inference.get("rotary_base", None)
-            pretrained_cfg["rotary_percentage"] = cfg.inference.get("rotary_percentage", None)
+            
+            # don't change these unless explicitly provided
+            if 'pretrained_max_position_embeddings' in cfg.inference:
+                pretrained_cfg.pretrained_max_position_embeddings = cfg.inference['pretrained_max_position_embeddings']
+            if 'seq_len_interpolation_factor' in cfg.inference:
+                pretrained_cfg.seq_len_interpolation_factor = cfg.inference['seq_len_interpolation_factor']   
+            if 'rotary_augment_seq' in cfg.inference:
+                pretrained_cfg.rotary_augment_seq = cfg.inference['rotary_augment_seq']
+            if 'rotary_base' in cfg.inference:
+                pretrained_cfg.rotary_base = cfg.inference['rotary_base']
+            if 'rotary_percentage' in cfg.inference:
+                pretrained_cfg.rotary_percentage = cfg.inference['rotary_percentage']
 
         model = MegatronGPTModel.restore_from(
             restore_path=cfg.gpt_model_file,
