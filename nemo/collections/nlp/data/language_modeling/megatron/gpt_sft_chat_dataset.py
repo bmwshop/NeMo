@@ -276,7 +276,7 @@ def preprocess(
         ids.append(torch.tensor(tokenized_sentence))
         tokenized_lens.append(len(tokenized_sentence))
     speakers = [sentence["from"] for sentence in source['conversations']]
-    assert mask_role == "" or mask_role in speakers, "mask role not in the conversation"
+    assert mask_role == "" or mask_role in speakers, f"mask role: {mask_role} not in the conversation"
     target = torch.LongTensor(target)
     # not going to train on the header
     target[:header_len] = IGNORE_INDEX
