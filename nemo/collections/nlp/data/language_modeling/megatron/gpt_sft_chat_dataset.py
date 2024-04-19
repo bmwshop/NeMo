@@ -276,25 +276,26 @@ def preprocess(
         ids.append(torch.tensor(tokenized_sentence))
         tokenized_lens.append(len(tokenized_sentence))
     speakers = [sentence["from"] for sentence in source['conversations']]
-    assert mask_role in speakers, "mask role not in the conversation"
+    assert mask_role == "" or mask_role in speakers, "mask role not in the conversation"
     target = torch.LongTensor(target)
     # not going to train on the header
     target[:header_len] = IGNORE_INDEX
     input_ids = torch.LongTensor(input_ids)
-    _mask_targets(
-        target,
-        tokenized_lens,
-        speakers,
-        header_len,
-        ids,
-        tokenizer,
-        mask_role,
-        data_type,
-        name_end_token_ids,
-        special_tokens,
-        label_start_ids,
-        num_turn_start_tokens,
-    )
+    if mask_role != "":
+        _mask_targets(
+            target,
+            tokenized_lens,
+            speakers,
+            header_len,
+            ids,
+            tokenizer,
+            mask_role,
+            data_type,
+            name_end_token_ids,
+            special_tokens,
+            label_start_ids,
+            num_turn_start_tokens,
+        )
     mask = (target != IGNORE_INDEX).bool()
     assert mask.sum().item() != 0, "mask is empty"
     # Choose the last conversation as answer other history are context
