@@ -210,6 +210,21 @@ class ExactStringMatchMetric(Metric):
 
     def compute(self):
         return self.correct.float() / self.total
+    
+class InStringMatchMetric(Metric):
+    def __init__(self, dist_sync_on_step=False, *args, **kwargs):
+        super().__init__(dist_sync_on_step=dist_sync_on_step)
+
+        self.add_state("correct", default=torch.tensor(0), dist_reduce_fx="sum")
+        self.add_state("total", default=torch.tensor(0), dist_reduce_fx="sum")
+
+    def update(self, pred: str, target: str):
+        if pred.lower() in target.lower():
+            self.correct += 1
+        self.total += 1
+
+    def compute(self):
+        return self.correct.float() / self.total
 
 
 class TokenF1Score(Metric):
