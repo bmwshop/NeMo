@@ -30,5 +30,6 @@ MetricStringToTorchMetric = {
     'spearman_corr_coef': SpearmanCorrCoef,
     'matthews_corr_coef': MatthewsCorrCoef,
     'exact_string_match': ExactStringMatchMetric,
+    'in_string_match': InStringMatchMetric,
     'rouge': ROUGEScore,
 }
