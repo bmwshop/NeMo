@@ -21,7 +21,7 @@ from typing import List, Union
 import torch
 from torchmetrics import Metric
 
-__all__ = ['TopKClassificationAccuracy']
+__all__ = ['TopKClassificationAccuracy', 'InStringMatchMetric']
 
 
 class TopKClassificationAccuracy(Metric):
