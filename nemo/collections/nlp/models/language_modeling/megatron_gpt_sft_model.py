@@ -411,9 +411,13 @@ class MegatronGPTSFTModel(NLPAdapterModelMixin, MegatronGPTModel):
         dataloader_iter, done = self._val_iterator_done(dataloader_iter)
         if done:
             return
+    
+        logging.info(f'inference_step: before next')
         batch = next(dataloader_iter)
+        logging.info(f'inference_step: after next; mode: {mode}')
         data_cfg = self.cfg.data.validation_ds if mode == 'validation' else self.cfg.data.test_ds
         self._reconfigure_and_process_inference_batch(batch, data_cfg)
+        logging.info(f'inference_step: after reconf')
         # Meta data from dataset
         metadata = batch.get('metadata', [{}] * len(batch['tokens']))
         loss = super().validation_step(itertools.chain([batch]), batch_idx)

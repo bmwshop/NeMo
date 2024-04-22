@@ -179,8 +179,11 @@ class NeMoModelCheckpoint(ModelCheckpoint):
         else:
             if torch.distributed.is_initialized():
                 torch.distributed.barrier()
-            pl_module.save_to(save_path=app_state.model_restore_path)
-            logging.info(f"New .nemo model saved to: {app_state.model_restore_path}")
+            # Dima: add step to filename
+            step_path = os.path.expanduser(os.path.join(self.dirpath, f'.{trainer.global_step}{self.postfix}')
+            # pl_module.save_to(save_path=app_state.model_restore_path)
+            pl_module.save_to(save_path=step_path)
+            logging.info(f"New .nemo model saved to: {step_path}")
         return output
 
     def on_train_end(self, trainer, pl_module):
