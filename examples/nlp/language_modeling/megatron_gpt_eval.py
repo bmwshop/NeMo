@@ -241,6 +241,9 @@ def main(cfg) -> None:
             if 'rotary_percentage' in cfg.inference:
                 pretrained_cfg.rotary_percentage = cfg.inference['rotary_percentage']
 
+            if 'target' in cfg.inference: # ability to override target class
+                pretrained_cfg.target = cfg.inference['target']
+
         model = MegatronGPTModel.restore_from(
             restore_path=cfg.gpt_model_file,
             trainer=trainer,
