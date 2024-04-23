@@ -220,7 +220,7 @@ class InStringMatchMetric(Metric):
         self.add_state("total", default=torch.tensor(0), dist_reduce_fx="sum")
 
     def update(self, pred: str, target: str):
-        if pred.lower() in target.lower():
+        if target.lower() in pred.lower():
             self.correct += 1
         self.total += 1
 
