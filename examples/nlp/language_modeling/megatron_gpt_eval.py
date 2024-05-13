@@ -235,8 +235,10 @@ def main(cfg) -> None:
             if 'seq_len_interpolation_factor' in cfg.inference:
                 pretrained_cfg.seq_len_interpolation_factor = cfg.inference['seq_len_interpolation_factor']   
             if 'rotary_augment_seq' in cfg.inference:
-                # pretrained_cfg.rotary_augment_seq = cfg.inference['rotary_augment_seq']
-                pretrained_cfg.rotary_augment_seq = OmegaConf.merge(pretrained_cfg.rotary_augment_seq, cfg.inference['rotary_augment_seq'])
+                if pretrained_cfg.rotary_augment_seq is not None:
+                    pretrained_cfg.rotary_augment_seq = OmegaConf.merge(pretrained_cfg.rotary_augment_seq, cfg.inference['rotary_augment_seq'])
+                else:
+                    pretrained_cfg.rotary_augment_seq = cfg.inference['rotary_augment_seq']
             if 'rotary_base' in cfg.inference:
                 pretrained_cfg.rotary_base = cfg.inference['rotary_base']
             if 'rotary_percentage' in cfg.inference:
