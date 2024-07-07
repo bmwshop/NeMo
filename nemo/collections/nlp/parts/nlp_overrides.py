@@ -116,6 +116,7 @@ def init_model_parallel(sharp: bool, nccl_communicator_config_path: str = None) 
 
     # we initialize megatron-lm model parallel and data parallel groups
     # after initializing DDP with PTL.
+    logging.info(f'nlp overrides: context_parallel_size: {app_state.context_parallel_size}')
     if app_state.model_parallel_size is not None:
         # destroy groups in case they have already been created
         # this happens with multiple calls to trainer.test for example
