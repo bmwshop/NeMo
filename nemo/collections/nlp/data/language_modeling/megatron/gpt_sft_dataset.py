@@ -137,6 +137,9 @@ class GPTSFTDataset(Dataset):
         # Will be None after this call if `max_num_samples` is None
         self._build_samples_mapping()
 
+        logging.info(f'pad_to_max_length: {self.pad_to_max_length:}')
+        logging.info(f'pad_seq_length_to_mult: {self.pad_seq_length_to_mult}')
+
     def _maybe_validate_prompt_template(self):
         assert (
             self.prompt_template is not None
