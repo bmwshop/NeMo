@@ -383,7 +383,7 @@ class GPTSFTChatDataset(GPTSFTDataset):
             self._collate_item(input_ids, max_length=max_length, pad_id=self.tokenizer.eos_id)
         )
         logging.info(f'self.max_seq_length: {self.max_seq_length}')
-        logging.info(f'max_seq_length: {max_seq_length}')
+        logging.info(f'max_length: {max_length}')
         logging.info(f'pad_seq_length_to_mult: {self.pad_seq_length_to_mult}')
         logging.info(f'input ids after shape: {input_ids.shape()}')
         labels = torch.LongTensor(self._collate_item(labels, max_length=max_length, pad_id=self.tokenizer.eos_id))
