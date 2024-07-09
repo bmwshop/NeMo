@@ -367,12 +367,14 @@ class GPTSFTChatDataset(GPTSFTDataset):
             contexts = [x[: self.max_seq_length] for x in contexts]
             answers = [x[: self.max_seq_length] for x in answers]
 
+        logging.info(f'max_length before: {max_length}')
         # increase max length to nearest multiple of 4 or 8
         if self.pad_to_max_length:
             max_length = self.max_seq_length
         else:
             max_length = min(self.max_seq_length, self._ceil_to_nearest(max_length, self.pad_seq_length_to_mult))
         assert max_length <= self.max_seq_length
+        logging.info(f'max_length after: {max_length}')
 
         attention_mask = [self._create_attention_mask(max_length) for _ in batch]
         attention_mask = torch.stack(attention_mask)
@@ -383,7 +385,7 @@ class GPTSFTChatDataset(GPTSFTDataset):
             self._collate_item(input_ids, max_length=max_length, pad_id=self.tokenizer.eos_id)
         )
         logging.info(f'self.max_seq_length: {self.max_seq_length}')
-        logging.info(f'max_length: {max_length}')
+        
         logging.info(f'pad_seq_length_to_mult: {self.pad_seq_length_to_mult}')
         logging.info(f'input ids after shape: {input_ids.size()}')
         labels = torch.LongTensor(self._collate_item(labels, max_length=max_length, pad_id=self.tokenizer.eos_id))
