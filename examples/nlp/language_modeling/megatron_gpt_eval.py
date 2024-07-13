@@ -32,6 +32,7 @@ from nemo.collections.nlp.parts.nlp_overrides import CustomProgressBar, NLPDDPSt
 from nemo.core.config import hydra_runner
 from nemo.utils.app_state import AppState
 from nemo.utils.model_utils import inject_model_parallel_rank
+from nemo.utils import logging
 
 try:
     from megatron.core import parallel_state
@@ -306,7 +307,10 @@ def main(cfg) -> None:
         "all_probs": cfg.inference.all_probs,
         "compute_logprob": cfg.inference.compute_logprob,
         "end_strings": cfg.inference.end_strings,
+        "compute_attention_mask": cfg.inference.compute_attention_mask,
     }
+
+    logging.info(f'compute_attention_mask: {compute_attention_mask}')
 
     fp8_enabled = hasattr(model.cfg, "fp8") and (model.cfg.fp8 == True)
     if fp8_enabled:
