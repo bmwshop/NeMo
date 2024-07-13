@@ -47,6 +47,7 @@ API_ALLOWED_KEYS = set(
         "end_strings",
         "compute_logprob",
         "random_seed",
+        "compute_attention_mask",
     ]
 )
 
