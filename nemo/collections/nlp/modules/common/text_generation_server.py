@@ -175,6 +175,7 @@ class MegatronGenerate(Resource):
 
         compute_attention_mask = True
         if "compute_attention_mask" in request.get_json():
+            logging.info(f'compute_attention_mask: {compute_attention_mask}')
             compute_attention_mask = request.get_json()["compute_attention_mask"]
             if not isinstance(compute_attention_mask, bool):
                 return "compute_attention_mask must be a boolean value"
