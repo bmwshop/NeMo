@@ -174,13 +174,13 @@ class MegatronGenerate(Resource):
             if not isinstance(compute_logprob, bool):
                 return "compute_logprob must be a boolean value"
 
-        compute_attention_mask = True
+        compute_attention_mask = False
         if "compute_attention_mask" in request.get_json():
-            logging.info(f'compute_attention_mask: {compute_attention_mask}')
             compute_attention_mask = request.get_json()["compute_attention_mask"]
             if not isinstance(compute_attention_mask, bool):
                 return "compute_attention_mask must be a boolean value"
-
+                
+        logging.info(f'compute_attention_mask: {compute_attention_mask}')
         random_seed = None
         if "random_seed" in request.get_json():
             random_seed = request.get_json()["random_seed"]
