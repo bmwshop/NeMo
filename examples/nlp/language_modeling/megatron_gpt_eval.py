@@ -310,7 +310,7 @@ def main(cfg) -> None:
         "compute_attention_mask": cfg.inference.compute_attention_mask,
     }
 
-    logging.info(f'compute_attention_mask: {compute_attention_mask}')
+    logging.info(f'compute_attention_mask: {cfg.inference.compute_attention_mask}')
 
     fp8_enabled = hasattr(model.cfg, "fp8") and (model.cfg.fp8 == True)
     if fp8_enabled:
