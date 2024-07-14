@@ -213,12 +213,12 @@ class MegatronGenerate(Resource):
                 top_k,
                 top_p,
                 greedy,
+                compute_attention_mask=compute_attention_mask,
                 compute_logprob,
                 repetition_penalty,
                 end_strings=end_strings,
                 min_tokens_to_generate=min_tokens_to_generate,
                 random_seed=random_seed,
-                compute_attention_mask=compute_attention_mask,
                 **extra,
             )
             for k in output:
