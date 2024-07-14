@@ -213,7 +213,7 @@ class MegatronGenerate(Resource):
                 top_k,
                 top_p,
                 greedy,
-                compute_attention_mask=compute_attention_mask,
+                compute_attention_mask,
                 compute_logprob,
                 repetition_penalty,
                 end_strings=end_strings,
