@@ -23,6 +23,7 @@ from nemo.collections.common.tokenizers.huggingface.auto_tokenizer import AutoTo
 from nemo.collections.common.tokenizers.regex_tokenizer import RegExTokenizer
 from nemo.collections.common.tokenizers.tabular_tokenizer import TabularTokenizer
 from nemo.collections.common.tokenizers.word_tokenizer import WordTokenizer
+from nemo.collections.common.tokenizers.tiktoken_tokenizer import TiktokenTokenizer
 from nemo.collections.common.tokenizers.youtokentome_tokenizer import YouTokenToMeTokenizer
 from nemo.collections.nlp.modules.common.huggingface.huggingface_utils import get_huggingface_pretrained_lm_models_list
 from nemo.collections.nlp.modules.common.lm_utils import get_pretrained_lm_models_list
@@ -120,6 +121,8 @@ def get_tokenizer(
         )
     elif tokenizer_name == 'yttm':
         return YouTokenToMeTokenizer(model_path=tokenizer_model, bpe_dropout=bpe_dropout)
+    elif tokenizer_name == 'tiktoken':
+        return nemo.collections.common.tokenizers.tiktoken_tokenizer.TiktokenTokenizer(vocab_file=vocab_file)
     elif tokenizer_name == 'word':
         return WordTokenizer(vocab_file=vocab_file, **special_tokens_dict)
     elif tokenizer_name == 'char':
@@ -207,6 +210,8 @@ def get_nmt_tokenizer(
         return get_tokenizer(tokenizer_name=model_name, vocab_file=vocab_file, merges_file=merges_file)
     elif library == 'tabular':
         return TabularTokenizer(vocab_file, delimiter=delimiter)
+    elif library == 'tiktoken':
+        return TiktokenTokenizer(vocab_file=vocab_file)
     else:
         raise NotImplementedError(
             'Currently we only support "yttm", "huggingface", "sentencepiece", "megatron", and "byte-level" tokenizer'
